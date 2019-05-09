@@ -39,7 +39,6 @@
       "git add"
     ]
   },
-  "proxy": "http://localhost:3333",
   "browserslist": {
     "production": [
       ">0.2%",

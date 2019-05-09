@@ -28,21 +28,30 @@ export default class Auth extends Component {
     this.setState({ showPW: !this.state.showPW });
   };
 
-  submit = () => {
+  submit = sign => {
     const email = this.emailEl.current.value;
     const password = this.passwordEl.current.value;
     if (email.trim().length && password.trim().length) {
-      console.log(email, password);
-      $fetch
-        .post('/graphql', {
-          query: `
+      const createUser = `
           mutation {
-            createUser(userInput: {email: "${email.trim()}", password: "${password.trim()}"}){
+            createUser(userInput: {email: "${email}", password: "${password}"}){
               _id
               email
             }
           }
-        `
+        `;
+      const login = `
+          query {
+            login(email: "${email}", password: "${password}"){
+              userId
+              token
+              tokenExpiration
+            }
+          }
+      `;
+      $fetch
+        .post('http://localhost:3333/graphql', {
+          query: sign ? createUser : login
         })
         .then(data => {
           console.log(data);
@@ -91,14 +100,17 @@ export default class Auth extends Component {
             }}
           />
           <div className={classes.formAction}>
-            <Button className={classes.submit} onClick={this.submit}>
+            <Button className={classes.submit} onClick={() => this.submit()}>
               登录
+            </Button>
+            <Button
+              className={classes.signUp}
+              onClick={() => this.submit(true)}
+            >
+              注册
             </Button>
           </div>
         </form>
-        <div className={classes.formHelp}>
-          <Button className={classes.signUp}>来注册一个吧?</Button>
-        </div>
       </Paper>
     );
   }
