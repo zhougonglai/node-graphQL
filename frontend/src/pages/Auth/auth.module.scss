@@ -1,0 +1,28 @@
+.container {
+  padding: 16px;
+  width: 320px;
+  position: relative;
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.textField {
+  flex-grow: 1;
+}
+
+.submit {
+}
+.formAction {
+  display: flex;
+  justify-content: flex-end;
+}
+.formHelp {
+  position: absolute;
+  bottom: -38px;
+  width: 100%;
+  left: 0;
+  display: flex;
+  justify-content: flex-end;
+}

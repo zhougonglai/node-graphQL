@@ -1,0 +1,15 @@
+.grow {
+  flex-grow: 1;
+}
+.drawer {
+  width: 200px;
+}
+.openDrawer {
+  padding-left: 200px;
+}
+.drawerHeader {
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}

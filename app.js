@@ -7,12 +7,14 @@ const helmet = require('helmet');
 
 const graphqlSchema = require('./graphql/schema/index');
 const graphqlResolvers = require('./graphql/resolvers/index');
+const auth = require('./middleware/auth');
 
 const app = express();
 
 app.use(parser.json())
   .use(compression())
-  .use(helmet());
+  .use(helmet())
+  .use(auth);
 
 app.use('/graphql', graphqlHttp({
   schema: graphqlSchema,
@@ -23,7 +25,7 @@ app.use('/graphql', graphqlHttp({
 mongoose
   .connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-y04ex.mongodb.net/${process.env.MONGO_DB}?retryWrites=true`,{useNewUrlParser: true})
   .then(() => {
-    app.listen(3000);
+    app.listen(3333);
   }).catch(err => {
     console.log(err)
   })
