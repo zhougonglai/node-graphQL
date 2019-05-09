@@ -18,7 +18,7 @@ export default class Default extends Component {
   static contextType = AppContext;
   render() {
     return (
-      <>
+      <React.Fragment>
         <AppBar
           position="sticky"
           className={this.props.collapse ? classes.openDrawer : ''}
@@ -68,7 +68,7 @@ export default class Default extends Component {
         <main className={this.props.collapse ? classes.openDrawer : ''}>
           {this.props.children}
         </main>
-      </>
+      </React.Fragment>
     );
   }
 }

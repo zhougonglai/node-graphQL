@@ -14,7 +14,16 @@ const app = express();
 app.use(parser.json())
   .use(compression())
   .use(helmet())
-  .use(auth);
+  .use(auth)
+  .use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', "*");
+    res.setHeader('Access-Control-Allow-Methods', "POST,GET,OPTIONS");
+    res.setHeader('Access-Control-Allow-Headers', "Content-Type, Authorization");
+    if (req.methods === 'OPTIONS') {
+      return res.sendStatus(200);
+    }
+    next();
+  });
 
 app.use('/graphql', graphqlHttp({
   schema: graphqlSchema,

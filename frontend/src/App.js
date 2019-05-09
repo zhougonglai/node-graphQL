@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core';
+import { MuiThemeProvider, createMuiTheme, Snackbar } from '@material-ui/core';
 import { blue } from '@material-ui/core/colors';
 
 import DefaultLayout from './layout/Default';
@@ -34,6 +34,12 @@ const Layout = props =>
 function App() {
   const [collapse, setCollapse] = useState(true);
   const [layout, setLayout] = useState('user');
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: '',
+    vertical: 'top',
+    horizontal: 'center'
+  });
   return (
     <BrowserRouter>
       <CssBaseline />
@@ -43,12 +49,26 @@ function App() {
             collapse,
             layout,
             setLayout,
+            snackbar,
+            setSnackbar,
             user: {},
             bookings: [],
             events: []
           }}
         >
           <Layout collapse={collapse} setCollapse={setCollapse}>
+            <Snackbar
+              anchorOrigin={{
+                vertical: snackbar.vertical,
+                horizontal: snackbar.horizontal
+              }}
+              open={snackbar.open}
+              onClose={() => setSnackbar({ ...snackbar, open: false })}
+              ContentProps={{
+                'aria-describedby': 'message-id'
+              }}
+              message={<span id="message-id">{snackbar.message}</span>}
+            />
             <Switch>
               <Route path="/" component={AuthPage} exact />
               <Route path="/events" component={EventPage} />
