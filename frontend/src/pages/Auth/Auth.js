@@ -53,8 +53,9 @@ export default class Auth extends Component {
         .post('http://localhost:3333/graphql', {
           query: sign ? createUser : login
         })
-        .then(data => {
-          console.log(data);
+        .then(res => res.data)
+        .then(({ login: { token, userId } }) => {
+          this.context.login(token, userId);
         });
     } else {
       this.context.setSnackbar({

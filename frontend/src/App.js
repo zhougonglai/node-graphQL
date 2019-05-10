@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { MuiThemeProvider, createMuiTheme, Snackbar } from '@material-ui/core';
@@ -40,6 +40,14 @@ function App() {
     vertical: 'top',
     horizontal: 'center'
   });
+  const [user, setUser] = useState({ token: null, userId: null });
+  const login = (token, userId, tokenExpiration) => setUser({ token, userId });
+  const logout = () => setUser({ token: null, userId: null });
+
+  useEffect(() => {
+    console.log('token:', user.token);
+  }, [user.token]);
+
   return (
     <BrowserRouter>
       <CssBaseline />
@@ -53,7 +61,11 @@ function App() {
             setSnackbar,
             user: {},
             bookings: [],
-            events: []
+            events: [],
+            token: user.token,
+            userId: user.userId,
+            login,
+            logout
           }}
         >
           <Layout collapse={collapse} setCollapse={setCollapse}>
@@ -70,10 +82,13 @@ function App() {
               message={<span id="message-id">{snackbar.message}</span>}
             />
             <Switch>
-              <Route path="/" component={AuthPage} exact />
+              {!user.token && <Route path="/auth" component={AuthPage} />}
               <Route path="/events" component={EventPage} />
-              <Route path="/bookings" component={BookingPage} />
-              <Redirect to="/" />
+              {user.token && <Route path="/bookings" component={BookingPage} />}
+
+              {user.token && <Redirect from="/" to="/events" exact />}
+              {user.token && <Redirect from="/auth" to="/events" exact />}
+              {!user.token && <Redirect from="/" to="/auth" />}
             </Switch>
           </Layout>
         </AppContext.Provider>

@@ -32,14 +32,16 @@ export default class Default extends Component {
               <MenuIcon />
             </IconButton>
             <div className={classes.grow} />
-            <Button
-              color="inherit"
-              component={Link}
-              to="/"
-              onClick={() => this.context.setLayout('user')}
-            >
-              Auth
-            </Button>
+            {this.context.token && (
+              <Button
+                color="inherit"
+                component={Link}
+                to="/"
+                onClick={() => this.context.setLayout('user')}
+              >
+                Auth
+              </Button>
+            )}
             <Button color="inherit" component={Link} to="/events">
               Events
             </Button>
