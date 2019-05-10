@@ -5,7 +5,7 @@ const User = require('../../models/user');
 
 module.exports = {
   users: async () => await User.find(),
-  login: async ({email, password}) => {
+  login: async ({ email, password }) => {
     const user = await User.findOne({ email });
     if (!user) {
       throw new Error('User does not exist!');
@@ -15,12 +15,12 @@ module.exports = {
       throw new Error('Password is incorrect!');
     }
     const token = jwt.sign({ userId: user.id, email: user.email }, 'secretkey', {
-      expiresIn: '1h'
+      expiresIn: '1h',
     });
     return {
       userId: user.id,
       token,
-      tokenExpiration: 1
+      tokenExpiration: 1,
     }
   },
   createUser: async ({ userInput }) => {
@@ -30,8 +30,8 @@ module.exports = {
     }
     const user = new User({
       email: userInput.email,
-      password: await bcrypt.hash(userInput.password, 12)
+      password: await bcrypt.hash(userInput.password, 12),
     })
     return await user.save();
-  }
+  },
 }

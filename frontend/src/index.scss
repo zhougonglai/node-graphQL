@@ -21,3 +21,11 @@ select:-internal-autofill-previewed,
 select:-internal-autofill-selected {
   box-shadow: 0 0 0 30px white inset;
 }
+
+#root {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}

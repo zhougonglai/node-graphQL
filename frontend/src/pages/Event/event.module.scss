@@ -1,0 +1,17 @@
+.container {
+  flex: 1;
+  height: -webkit-fill-available;
+}
+
+.toolbar {
+  padding: 8px;
+  display: flex;
+  justify-content: flex-end;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  width: 450px;
+}

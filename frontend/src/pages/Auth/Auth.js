@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import AppContext from '../../context/AppContext';
 import {
   TextField,
   Button,
@@ -8,11 +7,14 @@ import {
   IconButton
 } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
+import { withRouter } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 import classes from './auth.module.scss';
-import { $fetch } from '../../utils/fetch';
+import AppContext from 'context/AppContext';
+import { $fetch } from 'utils/fetch';
 
-export default class Auth extends Component {
+class Auth extends Component {
   static contextType = AppContext;
   state = {
     showPW: false
@@ -56,6 +58,8 @@ export default class Auth extends Component {
         .then(res => res.data)
         .then(({ login: { token, userId } }) => {
           this.context.login(token, userId);
+          Cookies.set('token', token, { expires: 1 });
+          this.props.history.push('/events');
         });
     } else {
       this.context.setSnackbar({
@@ -116,3 +120,5 @@ export default class Auth extends Component {
     );
   }
 }
+
+export default withRouter(Auth);
