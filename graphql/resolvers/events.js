@@ -3,7 +3,12 @@ const Event = require('../../models/event');
 const User = require('../../models/user');
 
 module.exports = {
-  events: async () => await Event.find(),
+  events: async () => {
+    const events = await Event.find();
+    return events.map(event => ({
+      ...event, creator: User.findById(event.creator),
+    }))
+  },
   createEvent: async ({ eventInput }, req) => {
     if (!req.isAuth) {
       throw new Error('Unauthenticated!')

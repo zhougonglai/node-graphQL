@@ -27,6 +27,8 @@ function App() {
     vertical: 'top',
     horizontal: 'center'
   });
+  const [events, setEvents] = useState([]);
+  const [bookings, setBookings] = useState([]);
   const [user, setUser] = useState({
     token: Cookies.get('token'),
     userId: null
@@ -48,11 +50,11 @@ function App() {
             setCollapse,
             snackbar,
             setSnackbar,
-            user: {},
-            bookings: [],
-            events: [],
-            token: user.token,
-            userId: user.userId,
+            user,
+            bookings,
+            setBookings,
+            events,
+            setEvents,
             login,
             logout
           }}

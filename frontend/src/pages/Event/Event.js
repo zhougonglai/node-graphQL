@@ -71,6 +71,34 @@ class Event extends Component {
     }
   };
 
+  fetchEvents = () => {
+    const query = `
+      query{
+        events{
+            _id
+            title
+            description
+            price
+            date
+            creator{
+              _id
+              email
+            }
+          }
+        }
+    `;
+    $fetch
+      .post('http://localhost:3333/graphql', { query })
+      .then(res => res.data)
+      .then(({ events }) => {
+        console.log(events);
+      });
+  };
+
+  componentDidMount() {
+    this.fetchEvents();
+  }
+
   render() {
     const { open } = this.state;
     return (

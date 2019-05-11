@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
@@ -11,12 +12,18 @@ module.exports = (req, res, next) => {
     req.isAuth = false;
     return next();
   }
-  const decodedToken = jwt.verify(token, 'secretkey');
-  if (!decodedToken) {
-    req.isAuth = false;
-    return next();
-  }
-  req.isAuth = true;
-  req.userId = decodedToken.userId;
-  next();
+
+  jwt.verify(token, 'secretkey', (err, decodedToken) => {
+    if (!decodedToken) {
+      req.isAuth = false;
+      return next();
+    }
+    if (err) {
+      console.log('err', err);
+      throw err;
+    }
+    req.isAuth = true;
+    req.userId = decodedToken.userId;
+    next();
+  });
 }
