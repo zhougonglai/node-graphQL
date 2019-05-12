@@ -58,7 +58,7 @@ class Auth extends Component {
         .then(res => res.data)
         .then(({ login: { token, userId } }) => {
           this.context.login(token, userId);
-          Cookies.set('token', token, { expires: 1 });
+          Cookies.set('token', token, { expires: 1 / 24 });
           this.props.history.push('/events');
         });
     } else {

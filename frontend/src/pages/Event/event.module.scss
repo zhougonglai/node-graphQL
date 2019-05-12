@@ -1,6 +1,8 @@
 .container {
   flex: 1;
   height: -webkit-fill-available;
+  display: flex;
+  flex-direction: column;
 }
 
 .toolbar {
@@ -14,4 +16,17 @@
   display: flex;
   flex-direction: column;
   width: 450px;
+}
+
+.inline {
+  display: inline;
+}
+
+.main {
+  flex: 1;
+  padding: 16px;
+}
+
+.actionRoot {
+  justify-content: space-between;
 }

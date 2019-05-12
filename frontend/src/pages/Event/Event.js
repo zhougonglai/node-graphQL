@@ -6,7 +6,13 @@ import {
   DialogTitle,
   DialogActions,
   DialogContent,
-  TextField
+  TextField,
+  Grid,
+  Card,
+  CardHeader,
+  CardActions,
+  CardContent,
+  Typography
 } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import AppContext from 'context/AppContext';
@@ -64,10 +70,13 @@ class Event extends Component {
         .post('http://localhost:3333/graphql', { query })
         .then(res => res.data)
         .then(({ createEvent }) => {
-          console.log(createEvent);
+          if (createEvent) {
+            this.context.setEvents(this.context.events.concat(createEvent));
+            this.handleClose();
+          } else {
+            this.props.history.push('/auth');
+          }
         });
-    } else {
-      console.log(typeof price);
     }
   };
 
@@ -91,7 +100,7 @@ class Event extends Component {
       .post('http://localhost:3333/graphql', { query })
       .then(res => res.data)
       .then(({ events }) => {
-        console.log(events);
+        this.context.setEvents(events);
       });
   };
 
@@ -101,6 +110,7 @@ class Event extends Component {
 
   render() {
     const { open } = this.state;
+    const { events } = this.context;
     return (
       <div className={classes.container}>
         <Dialog open={open} onClose={this.handleClose}>
@@ -147,6 +157,31 @@ class Event extends Component {
           >
             New Event
           </Button>
+        </div>
+        <div className={classes.main}>
+          {!!events.length && (
+            <Grid container spacing={16}>
+              {events.map((event, index) => (
+                <Grid item key={event._id} xs={12} sm={6} md={4}>
+                  <Card>
+                    <CardHeader
+                      title={event.title}
+                      subheader={new Date(
+                        parseInt(event.date)
+                      ).toLocaleTimeString()}
+                    />
+                    <CardContent>
+                      <Typography>{event.description}</Typography>
+                    </CardContent>
+                    <CardActions classes={{ root: classes.actionRoot }}>
+                      <Typography>"$" {event.price}</Typography>
+                      <Button>Details</Button>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          )}
         </div>
       </div>
     );

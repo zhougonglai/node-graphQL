@@ -12,18 +12,18 @@ module.exports = (req, res, next) => {
     req.isAuth = false;
     return next();
   }
-
-  jwt.verify(token, 'secretkey', (err, decodedToken) => {
-    if (!decodedToken) {
-      req.isAuth = false;
-      return next();
-    }
-    if (err) {
-      console.log('err', err);
-      throw err;
-    }
-    req.isAuth = true;
-    req.userId = decodedToken.userId;
-    next();
-  });
+  let decodedToken;
+  try {
+    decodedToken = jwt.verify(token, 'secretkey');
+  } catch (err) {
+    req.isAuth = false;
+    return next();
+  }
+  if (!decodedToken) {
+    req.isAuth = false;
+    return next();
+  }
+  req.isAuth = true;
+  req.userId = decodedToken.userId;
+  next();
 }

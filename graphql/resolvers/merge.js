@@ -1,11 +1,13 @@
+/* eslint-disable no-return-await */
+/* eslint-disable implicit-arrow-linebreak */
 const Event = require('../../models/event');
 const User = require('../../models/user');
 
-const events = async eventIds =>
-  await Event.find({ _id: { $in: eventIds}})
+exports.findEvents = async eventIds =>
+  await Event.find({ _id: { $in: eventIds } })
 
-const user = async userId =>
+exports.findUser = async userId =>
   await User.findById(userId)
 
-const event = async eventId =>
+exports.findEvent = async eventId =>
   await Event.findById(eventId)
