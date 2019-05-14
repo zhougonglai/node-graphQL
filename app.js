@@ -28,13 +28,13 @@ app.use(parser.json())
 app.use('/graphql', graphqlHttp({
   schema: graphqlSchema,
   rootValue: graphqlResolvers,
-  graphiql: true
+  graphiql: true,
 }));
 
 mongoose
-  .connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-y04ex.mongodb.net/${process.env.MONGO_DB}?retryWrites=true`,{useNewUrlParser: true})
+  .connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-y04ex.mongodb.net/${process.env.MONGO_DB}?retryWrites=true`, { useNewUrlParser: true })
   .then(() => {
     app.listen(3333);
-  }).catch(err => {
+  }).catch((err) => {
     console.log(err)
   })
